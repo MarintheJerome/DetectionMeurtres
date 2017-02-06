@@ -15,14 +15,6 @@ object ETL {
     val writer = new CSVWriter(out, ',')
     val filename = "train.csv"
 
-    /*val listDayOfWeek = mutable.ListBuffer[String]()
-    val listDate = mutable.ListBuffer[String]()
-    val listCategory = mutable.ListBuffer[String]()
-    val listDistrict = mutable.ListBuffer[String]()
-    val listResolution = mutable.ListBuffer[String]()
-    val listX = mutable.ListBuffer[String]()
-    val listY = mutable.ListBuffer[String]()*/
-
     /*val ligne = Array("0 - Jour", "1 - Heures",
       "2 - Category", "3 - Description",
       "4 - DayOfWeek : Monday", "5 - DayOfWeek : Tuesday", "6- DayOfWeek : Wednesday",
@@ -33,10 +25,6 @@ object ETL {
 
     for (line <- Source.fromFile(filename).getLines.drop(1)) {
       val cols = line.split(";").map(_.trim)
-      /* transfromValue(listCategory, {cols(1)})
-      transfromValue(listDayOfWeek, {cols(3)})
-      transfromValue(listDistrict, {cols(4)})
-      transfromValue(listResolution, {cols(5)}) */
 
       val categories = categoryInBinary({cols(1)})
       val daysOfWeek = dayInBinary({cols(3)})
@@ -55,12 +43,6 @@ object ETL {
       writer.writeNext(ligne)
     }
     writer.close()
-  }
-
-  def transfromValue(list : mutable.ListBuffer[String], value : String): Unit ={
-    if(!list.contains(value)){
-      list.++=(List(value))
-    }
   }
 
   def dayInBinary(day : String) : Array[String] = {
@@ -154,13 +136,5 @@ object ETL {
       case "PORNOGRAPHY/OBSCENE MAT" => Array("0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "1")
       case "TREA" => Array("0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "1")
     }
-  }
-
-  def printList(title : String, list : mutable.ListBuffer[String]): Unit ={
-    // On vire l'entête pour qu'on ait le bon compte
-    println(title+"\n")
-    println("Size : "+list.size)
-    list.foreach(println)
-    println("\n\n\n")
   }
 }
