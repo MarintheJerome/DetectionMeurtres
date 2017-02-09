@@ -6,8 +6,6 @@ import au.com.bytecode.opencsv.CSVWriter
 import java.io.FileWriter
 import java.io.BufferedWriter
 
-import scala.collection.mutable
-
 object ETL {
   def main(args: Array[String]): Unit = {
 
@@ -31,20 +29,22 @@ object ETL {
       val district = districtInBinary({cols(4)})
       val resolution = resolutionInBinary({cols(5)})
       val dates = {cols(0)}.split(" +")
+      val hours = hourInBinary({dates(1)})
       val ligne = Array(
         district,
-        {dates(0)}, {dates(1)},
-        {categories(0)}, {categories(1)}, {categories(2)}, {categories(3)}, {categories(4)},
-        {categories(5)}, {categories(6)}, {categories(7)}, {categories(8)}, {categories(9)},
-        {categories(10)}, {categories(11)}, {categories(12)}, {categories(13)},
-        {daysOfWeek(0)}, {daysOfWeek(1)}, {daysOfWeek(2)}, {daysOfWeek(3)}, {daysOfWeek(4)}, {daysOfWeek(5)}, {daysOfWeek(6)},
-        {resolution(0)}, {resolution(1)}, {resolution(2)}, {resolution(3)}
+        "1:"+{hours(0)}, "2:"+{hours(1)}, "3:"+{hours(2)}, "4:"+{hours(3)},
+        "5:"+{categories(0)}, "6:"+{categories(1)}, "7:"+{categories(2)}, "8:"+{categories(3)}, "9:"+{categories(4)},
+        "10:"+{categories(5)}, "11:"+{categories(6)}, "12:"+{categories(7)}, "13:"+{categories(8)}, "14:"+{categories(9)},
+        "15:"+{categories(10)}, "16:"+{categories(11)}, "17:"+{categories(12)}, "18:"+{categories(13)},
+        "19:"+{daysOfWeek(0)}, "20:"+{daysOfWeek(1)}, "21:"+{daysOfWeek(2)}, "22:"+{daysOfWeek(3)}, "23:"+{daysOfWeek(4)}, "24:"+{daysOfWeek(5)}, "25:"+{daysOfWeek(6)},
+        "26:"+{resolution(0)}, "27:"+{resolution(1)}, "28:"+{resolution(2)}, "29:"+{resolution(3)}
         )
       writer.writeNext(ligne)
     }
     writer.close()
   }
 
+  // Chaque colonne représente un jour
   def dayInBinary(day : String) : Array[String] = {
     day match {
       case "Monday" => Array("1", "0", "0","0","0","0","0")
@@ -72,6 +72,7 @@ object ETL {
     }
   }
 
+  // Chaque colonne représente une résolution
   def resolutionInBinary(resolution : String) : Array[String] = {
     resolution match {
       case "NONE" => Array("1", "0", "0", "0")
@@ -94,6 +95,7 @@ object ETL {
     }
   }
 
+  // Les 13 premières colonnes représentent les 13 categories les plus fréquentes, la 14 ème le reste des catégories
   def categoryInBinary(category : String) : Array[String] ={
     category match{
       case "LARCENY/THEFT" => Array("1", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0")
@@ -136,5 +138,22 @@ object ETL {
       case "PORNOGRAPHY/OBSCENE MAT" => Array("0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "1")
       case "TREA" => Array("0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "1")
     }
+  }
+
+  def hourInBinary(hour : String) : Array[String] = {
+    val hourInt = hour.split(":")(0).toInt
+    if(hourInt >= 0 && hourInt < 6){
+      return Array("1", "0", "0", "0")
+    }
+    if(hourInt >= 6 && hourInt < 12){
+      return Array("0", "1", "0", "0")
+    }
+    if(hourInt >= 12 && hourInt < 18){
+      return Array("0", "0", "1", "0")
+    }
+    if(hourInt >= 18 && hourInt < 24){
+      return Array("0", "0", "0", "1")
+    }
+    Array("0", "0", "0", "0")
   }
 }

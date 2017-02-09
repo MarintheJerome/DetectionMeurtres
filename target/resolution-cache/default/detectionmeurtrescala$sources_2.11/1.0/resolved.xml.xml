@@ -4,7 +4,7 @@
 		module="detectionmeurtrescala$sources_2.11"
 		revision="1.0"
 		status="integration"
-		publication="20170206112318"
+		publication="20170209141614"
 	/>
 	<configurations>
 		<conf name="compile" visibility="public" description=""/>

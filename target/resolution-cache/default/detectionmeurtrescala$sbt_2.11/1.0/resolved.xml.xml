@@ -4,7 +4,7 @@
 		module="detectionmeurtrescala$sbt_2.11"
 		revision="1.0"
 		status="integration"
-		publication="20170206112301"
+		publication="20170209141611"
 	/>
 	<configurations>
 		<conf name="default" visibility="public"/>
