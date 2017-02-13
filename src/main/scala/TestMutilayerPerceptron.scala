@@ -24,7 +24,7 @@ object TestMutilayerPerceptron {
     // $example on$
     // Load the data stored in LIBSVM format as a DataFrame.
     val data = spark.read.format("libsvm")
-      .load("sample_multiclass_classification_data.txt")
+      .load("Category.txt")
 
     // Split the data into train and test
     val splits = data.randomSplit(Array(0.6, 0.4), seed = 1234L)
@@ -34,7 +34,7 @@ object TestMutilayerPerceptron {
     // specify layers for the neural network:
     // input layer of size 4 (features), two intermediate of size 5 and 4
     // and output of size 3 (classes)
-    val layers = Array[Int](4, 5, 4, 3)
+    val layers = Array[Int](21, 17, 14)
 
     // create the trainer and set its parameters
     val trainer = new MultilayerPerceptronClassifier()

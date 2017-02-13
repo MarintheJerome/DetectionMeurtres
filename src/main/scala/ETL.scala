@@ -9,8 +9,8 @@ import java.io.BufferedWriter
 object ETL {
   def main(args: Array[String]): Unit = {
 
-    val out = new BufferedWriter(new FileWriter("beaufichier.txt"))
-    val writer = new CSVWriter(out, ',')
+    val outDistrict = new BufferedWriter(new FileWriter("District.txt"))
+    val outCategory = new BufferedWriter(new FileWriter("Category.txt"))
     val filename = "train.csv"
 
     /*val ligne = Array("0 - Jour", "1 - Heures",
@@ -24,30 +24,29 @@ object ETL {
     for (line <- Source.fromFile(filename).getLines.drop(1)) {
       val cols = line.split(";").map(_.trim)
 
+      val category = categoryToNumber({cols(1)})
       val categories = categoryInBinary({cols(1)})
       val daysOfWeek = dayInBinary({cols(3)})
-      val district = districtInBinary({cols(4)})
+      val district = districtToNumber({cols(4)})
+      val districts = districtToBinary({cols(4)})
       val resolution = resolutionInBinary({cols(5)})
       val dates = {cols(0)}.split(" +" )
       val hours = hourInBinary({dates(1)})
-      /* val ligne = Array(
-        district,
-        "1:"+{hours(0)}, "2:"+{hours(1)}, "3:"+{hours(2)}, "4:"+{hours(3)},
-        "5:"+{categories(0)}, "6:"+{categories(1)}, "7:"+{categories(2)}, "8:"+{categories(3)}, "9:"+{categories(4)},
-        "10:"+{categories(5)}, "11:"+{categories(6)}, "12:"+{categories(7)}, "13:"+{categories(8)}, "14:"+{categories(9)},
-        "15:"+{categories(10)}, "16:"+{categories(11)}, "17:"+{categories(12)}, "18:"+{categories(13)},
-        "19:"+{daysOfWeek(0)}, "20:"+{daysOfWeek(1)}, "21:"+{daysOfWeek(2)}, "22:"+{daysOfWeek(3)}, "23:"+{daysOfWeek(4)}, "24:"+{daysOfWeek(5)}, "25:"+{daysOfWeek(6)},
-        "26:"+{resolution(0)}, "27:"+{resolution(1)}, "28:"+{resolution(2)}, "29:"+{resolution(3)}
-        )*/
-      val ligne = district+" 1:"+{hours(0)}+" 2:"+{hours(1)}+" 3:"+{hours(2)}+" 4:"+{hours(3)}+
-        " 5:"+{categories(0)}+" 6:"+{categories(1)}+" 7:"+{categories(2)}+" 8:"+{categories(3)}+" 9:"+{categories(4)}+
-        " 10:"+{categories(5)}+" 11:"+{categories(6)}+" 12:"+{categories(7)}+" 13:"+{categories(8)}+" 14:"+{categories(9)}+
-        " 15:"+{categories(10)}+" 16:"+{categories(11)}+" 17:"+{categories(12)}+" 18:"+{categories(13)}+
-        " 19:"+{daysOfWeek(0)}+" 20:"+{daysOfWeek(1)}+" 21:"+{daysOfWeek(2)}+" 22:"+{daysOfWeek(3)}+" 23:"+{daysOfWeek(4)}+" 24:"+{daysOfWeek(5)}+" 25:"+{daysOfWeek(6)}+
-        " 26:"+{resolution(0)}+" 27:"+{resolution(1)}+" 28:"+{resolution(2)}+" 29:"+{resolution(3)}+"\n"
-      out.write(ligne)
+      val ligneDistrict = district+
+        " 1:"+{categories(0)}+" 2:"+{categories(1)}+" 3:"+{categories(2)}+" 4:"+{categories(3)}+" 5:"+{categories(4)}+
+        " 6:"+{categories(5)}+" 7:"+{categories(6)}+" 8:"+{categories(7)}+" 9:"+{categories(8)}+" 10:"+{categories(9)}+
+        " 11:"+{categories(10)}+" 12:"+{categories(11)}+" 13:"+{categories(12)}+" 14:"+{categories(13)}+
+        " 15:"+{daysOfWeek(0)}+" 16:"+{daysOfWeek(1)}+" 17:"+{daysOfWeek(2)}+" 18:"+{daysOfWeek(3)}+" 19:"+{daysOfWeek(4)}+" 20:"+{daysOfWeek(5)}+" 21:"+{daysOfWeek(6)}+
+        " 22:"+{resolution(0)}+" 23:"+{resolution(1)}+" 24:"+{resolution(2)}+" 25:"+{resolution(3)}+"\n"
+      val ligneCategory = category+
+        " 1:"+{daysOfWeek(0)}+" 2:"+{daysOfWeek(1)}+" 3:"+{daysOfWeek(2)}+" 4:"+{daysOfWeek(3)}+" 5:"+{daysOfWeek(4)}+" 6:"+{daysOfWeek(5)}+" 7:"+{daysOfWeek(6)}+
+        " 8:"+{districts(0)}+" 9:"+{districts(1)}+" 10:"+{districts(2)}+" 11:"+{districts(3)}+" 12:"+{districts(4)}+
+        " 13:"+{districts(5)}+" 14:"+{districts(6)}+" 15:"+{districts(7)}+" 16:"+{districts(8)}+" 17:"+{districts(9)}+
+        " 18:"+{resolution(0)}+" 19:"+{resolution(1)}+" 20:"+{resolution(2)}+" 21:"+{resolution(3)}+"\n"
+      outDistrict.write(ligneDistrict)
+      outCategory.write(ligneCategory)
     }
-    writer.close()
+    outDistrict.close()
   }
 
   // Chaque colonne représente un jour
@@ -63,7 +62,7 @@ object ETL {
     }
   }
 
-  def districtInBinary(district : String) : String = {
+  def districtToNumber(district : String) : String = {
     district match {
       case "NORTHERN" => "0"
       case "PARK" => "1"
@@ -75,6 +74,65 @@ object ETL {
       case "TENDERLOIN" => "7"
       case "SOUTHERN" => "8"
       case "MISSION" => "9"
+    }
+  }
+
+  def categoryToNumber(category : String) : String = {
+    category match{
+      case "LARCENY/THEFT" => "0"
+      case "OTHER OFFENSES" => "1"
+      case "NON-CRIMINAL" => "2"
+      case "ASSAULT" => "3"
+      case "DRUG/NARCOTIC" => "4"
+      case "VEHICLE THEFT" => "5"
+      case "VANDALISM" => "6"
+      case "WARRANTS" => "7"
+      case "BURGLARY" => "8"
+      case "SUSPICIOUS OCC" => "9"
+      case "MISSING PERSON" => "10"
+      case "ROBBERY" => "11"
+      case "FRAUD" => "12"
+      case "FORGERY/COUNTERFEITING" => "13"
+      case "SECONDARY CODES" => "13"
+      case "WEAPON LAWS" => "13"
+      case "PROSTITUTION" => "13"
+      case "TRESPASS" => "13"
+      case "STOLEN PROPERTY" => "13"
+      case "SEX OFFENSES FORCIBLE" => "13"
+      case "DISORDERLY CONDUCT" => "13"
+      case "DRUNKENNESS" => "13"
+      case "RECOVERED VEHICLE" => "13"
+      case "KIDNAPPING" => "13"
+      case "DRIVING UNDER THE INFLUENCE" => "13"
+      case "RUNAWAY" => "13"
+      case "LIQUOR LAWS" => "13"
+      case "ARSON" => "13"
+      case "LOITERING" => "13"
+      case "EMBEZZLEMENT" => "13"
+      case "SUICIDE" => "13"
+      case "FAMILY OFFENSES" => "13"
+      case "BAD CHECKS" => "13"
+      case "BRIBERY" => "13"
+      case "EXTORTION" => "13"
+      case "SEX OFFENSES NON FORCIBLE" => "13"
+      case "GAMBLING" => "13"
+      case "PORNOGRAPHY/OBSCENE MAT" => "13"
+      case "TREA" => "13"
+    }
+  }
+
+  def districtToBinary(district : String) : Array[String] = {
+    district match{
+      case "NORTHERN" => Array("1", "0", "0","0","0","0","0", "0", "0", "0")
+      case "PARK" => Array("0", "1", "0","0","0","0","0", "0", "0", "0")
+      case "INGLESIDE" => Array("0", "0", "1","0","0","0","0", "0", "0", "0")
+      case "BAYVIEW" => Array("0", "0", "0","1","0","0","0", "0", "0", "0")
+      case "RICHMOND" => Array("0", "0", "0","0","1","0","0", "0", "0", "0")
+      case "CENTRAL" => Array("0", "0", "0","0","0","1","0", "0", "0", "0")
+      case "TARAVAL" => Array("0", "0", "0","0","0","0","1", "0", "0", "0")
+      case "TENDERLOIN" => Array("0", "0", "0","0","0","0","0", "1", "0", "0")
+      case "SOUTHERN" => Array("0", "0", "0","0","0","0","0", "0", "1", "0")
+      case "MISSION" => Array("0", "0", "0","0","0","0","0", "0", "0", "1")
     }
   }
 
