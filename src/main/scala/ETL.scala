@@ -2,7 +2,6 @@
   * Created by jerome on 06/02/17.
   */
 import scala.io.Source
-import au.com.bytecode.opencsv.CSVWriter
 import java.io.FileWriter
 import java.io.BufferedWriter
 
@@ -47,6 +46,7 @@ object ETL {
       outCategory.write(ligneCategory)
     }
     outDistrict.close()
+    outCategory.close()
   }
 
   // Chaque colonne représente un jour
