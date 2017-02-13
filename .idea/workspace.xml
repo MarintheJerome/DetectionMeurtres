@@ -2,7 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="b9d398c6-4182-40ec-b1f3-7ccc84c0f2fc" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/scala/ETL.scala" afterPath="$PROJECT_DIR$/src/main/scala/ETL.scala" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/au.com.bytecode.opencsv.CSVWriter" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/java.io.BufferedWriter" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/java.io.FileWriter" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/scala.io.Source" afterPath="" />
     </list>
     <ignored path="DetectionMeurtreScala.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -789,12 +792,12 @@
       <updated>1486374672793</updated>
       <workItem from="1486374676114" duration="20123000" />
       <workItem from="1486646144254" duration="2071000" />
-      <workItem from="1486992236811" duration="10000" />
+      <workItem from="1486992236811" duration="84000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="22204000" />
+    <option name="totallyTimeSpent" value="22278000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="65" y="24" width="1535" height="876" extended-state="6" />
@@ -942,6 +945,14 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="360">
           <caret line="20" column="47" selection-start-line="20" selection-start-column="47" selection-end-line="20" selection-end-column="47" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/java.io.BufferedWriter">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-1890">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding />
         </state>
       </provider>
