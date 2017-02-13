@@ -9,7 +9,7 @@ import java.io.BufferedWriter
 object ETL {
   def main(args: Array[String]): Unit = {
 
-    val out = new BufferedWriter(new FileWriter("beaufichier.csv"));
+    val out = new BufferedWriter(new FileWriter("beaufichier.txt"))
     val writer = new CSVWriter(out, ',')
     val filename = "train.csv"
 
@@ -28,9 +28,9 @@ object ETL {
       val daysOfWeek = dayInBinary({cols(3)})
       val district = districtInBinary({cols(4)})
       val resolution = resolutionInBinary({cols(5)})
-      val dates = {cols(0)}.split(" +")
+      val dates = {cols(0)}.split(" +" )
       val hours = hourInBinary({dates(1)})
-      val ligne = Array(
+      /* val ligne = Array(
         district,
         "1:"+{hours(0)}, "2:"+{hours(1)}, "3:"+{hours(2)}, "4:"+{hours(3)},
         "5:"+{categories(0)}, "6:"+{categories(1)}, "7:"+{categories(2)}, "8:"+{categories(3)}, "9:"+{categories(4)},
@@ -38,8 +38,14 @@ object ETL {
         "15:"+{categories(10)}, "16:"+{categories(11)}, "17:"+{categories(12)}, "18:"+{categories(13)},
         "19:"+{daysOfWeek(0)}, "20:"+{daysOfWeek(1)}, "21:"+{daysOfWeek(2)}, "22:"+{daysOfWeek(3)}, "23:"+{daysOfWeek(4)}, "24:"+{daysOfWeek(5)}, "25:"+{daysOfWeek(6)},
         "26:"+{resolution(0)}, "27:"+{resolution(1)}, "28:"+{resolution(2)}, "29:"+{resolution(3)}
-        )
-      writer.writeNext(ligne)
+        )*/
+      val ligne = district+" 1:"+{hours(0)}+" 2:"+{hours(1)}+" 3:"+{hours(2)}+" 4:"+{hours(3)}+
+        " 5:"+{categories(0)}+" 6:"+{categories(1)}+" 7:"+{categories(2)}+" 8:"+{categories(3)}+" 9:"+{categories(4)}+
+        " 10:"+{categories(5)}+" 11:"+{categories(6)}+" 12:"+{categories(7)}+" 13:"+{categories(8)}+" 14:"+{categories(9)}+
+        " 15:"+{categories(10)}+" 16:"+{categories(11)}+" 17:"+{categories(12)}+" 18:"+{categories(13)}+
+        " 19:"+{daysOfWeek(0)}+" 20:"+{daysOfWeek(1)}+" 21:"+{daysOfWeek(2)}+" 22:"+{daysOfWeek(3)}+" 23:"+{daysOfWeek(4)}+" 24:"+{daysOfWeek(5)}+" 25:"+{daysOfWeek(6)}+
+        " 26:"+{resolution(0)}+" 27:"+{resolution(1)}+" 28:"+{resolution(2)}+" 29:"+{resolution(3)}+"\n"
+      out.write(ligne)
     }
     writer.close()
   }
